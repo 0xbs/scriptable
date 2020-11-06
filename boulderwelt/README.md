@@ -1,6 +1,5 @@
 # Boulderwelt Widget
-
-![Boulderwelt Widget Preview](https://raw.githubusercontent.com/0xbs/scriptable/main/boulderwelt/preview.jpg)
+<img src="https://raw.githubusercontent.com/0xbs/scriptable/main/boulderwelt/preview.jpg" alt="Boulderwelt Widget Preview" width="547">
 
 Possible widget parameters:
 
