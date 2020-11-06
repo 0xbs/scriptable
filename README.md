@@ -1,3 +1,3 @@
 # iOS Scriptable Widgets
 
-* [Boulderwelt](boulderwelt) - Shows current level of capacity and queue.
+* [Boulderwelt](boulderwelt) - Shows the current capacity and queue for Boulderwelt climbing halls in Germany
