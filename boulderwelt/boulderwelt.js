@@ -1,4 +1,4 @@
-function createWidget(location, occupancy, queue, timestamp) {
+function createWidget(location, data) {
     const locationNames = {
         "muenchen-ost": "München Ost",
         "muenchen-west": "München West",
@@ -11,49 +11,39 @@ function createWidget(location, occupancy, queue, timestamp) {
     widget.url = `https://www.boulderwelt-${location}.de/`
 
     let title = widget.addText("🧗 " + locationNames[location])
-    title.font = Font.boldSystemFont(16)
-    title.minimumScaleFactor = 0.8
-    title.lineLimit = 2
+    title.font = Font.boldSystemFont(14)
+    title.minimumScaleFactor = 0.7
+    title.lineLimit = 1
 
     widget.addSpacer()
 
-    let occupancyTitle = widget.addText("Hallenbelegung")
-    occupancyTitle.font = Font.regularSystemFont(12)
-    occupancyTitle.textColor = Color.gray()
-    occupancyTitle.minimumScaleFactor = 0.5
+    if (data.success) {
+        let levelTitle = widget.addText("Hallenbelegung")
+        levelTitle.font = Font.regularSystemFont(12)
+        levelTitle.textColor = Color.gray()
+        levelTitle.minimumScaleFactor = 0.5
 
-    let occupancyText = widget.addText(occupancy + "%")
-    occupancyText.font = Font.regularSystemFont(36)
-    occupancyText.minimumScaleFactor = 0.8
-    if (occupancy >= 90) {
-        occupancyText.textColor = Color.red()
-    } else if (occupancy >= 80) {
-        occupancyText.textColor = Color.orange()
-    } else if (occupancy >= 70) {
-        occupancyText.textColor = Color.yellow()
+        let levelText = widget.addText(data.level + "%")
+        levelText.font = Font.regularSystemFont(36)
+        levelText.minimumScaleFactor = 0.8
+        if (data.level >= 90) {
+            levelText.textColor = Color.red()
+        } else if (data.level >= 80) {
+            levelText.textColor = Color.orange()
+        } else if (data.level >= 70) {
+            levelText.textColor = Color.yellow()
+        } else {
+            levelText.textColor = Color.green()
+        }
     } else {
-        occupancyText.textColor = Color.green()
+        let errorTitle = widget.addText("Fehler beim Abruf der Daten")
+        errorTitle.font = Font.regularSystemFont(15)
+        errorTitle.textColor = Color.gray()
     }
 
     widget.addSpacer()
 
-    let queueTitle = widget.addText("Warteschlange")
-    queueTitle.font = Font.regularSystemFont(12)
-    queueTitle.textColor = Color.gray()
-    queueTitle.minimumScaleFactor = 0.5
-
-    let queueText = widget.addText(queue + " Personen")
-    queueText.font = Font.regularSystemFont(18)
-    queueText.minimumScaleFactor = 1
-    if (queue > 20) {
-        queueText.textColor = Color.red()
-    } else if (queue > 10) {
-        queueText.textColor = Color.orange()
-    }
-
-    //widget.addSpacer()
-
-    let timestampText = widget.addDate(timestamp)
+    let timestampText = widget.addDate(data.timestamp)
     timestampText.font = Font.regularSystemFont(10)
     timestampText.textColor = Color.gray()
     timestampText.minimumScaleFactor = 0.5
@@ -67,7 +57,12 @@ async function getData(location) {
     req.method = "POST"
     req.body = "action=cxo_get_crowd_indicator"
     req.headers = { "Content-Type": "application/x-www-form-urlencoded" }
-    let response = await req.loadJSON()
+    let response = {}
+    try {
+        response = await req.loadJSON()
+    } catch (e) {
+        response.success = false
+    }
     response.timestamp = new Date()
     return response
 }
@@ -76,13 +71,13 @@ if (config.runsInApp) {
     // Demo for in-app testing
     let location = "muenchen-west"
     let data = await getData(location)
-    let widget = createWidget(location, data.percent, data.queue, data.timestamp)
+    let widget = createWidget(location, data)
     widget.presentSmall()
 } else {
     // The real deal
     let location = args.widgetParameter
     let data = await getData(location)
-    let widget = createWidget(location, data.percent, data.queue, data.timestamp)
+    let widget = createWidget(location, data)
     Script.setWidget(widget)
 }
 Script.complete()
