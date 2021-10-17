@@ -52,7 +52,7 @@ function createWidget(location, data) {
     return widget
 }
 
-async function getData(location) {
+async function getDataDirectly(location) {
     let req = new Request(`https://www.boulderwelt-${location}.de/wp-admin/admin-ajax.php`)
     req.method = "POST"
     req.body = "action=cxo_get_crowd_indicator"
@@ -65,6 +65,34 @@ async function getData(location) {
     }
     response.timestamp = new Date()
     return response
+}
+
+async function getDataFromIndicator(location) {
+    let webview = new WebView()
+    await webview.loadURL(`https://www.boulderwelt-${location}.de/`)
+    let getLevel = `(function(){
+        const img = document.querySelector('.crowd-level-pointer img')
+        const style = img.getAttribute('style')
+        const regex = /margin-left\\s*:\\s*([\\d.]+)%/
+        const found = style.match(regex)
+        if (!found) return -1
+        const level = parseFloat(found[1])
+        return Math.round(level)
+    })()`
+    let level = await webview.evaluateJavaScript(getLevel, false)
+    let response = {}
+    response.success = level >= 0
+    response.level = level
+    response.timestamp = new Date()
+    return response
+}
+
+async function getData(location) {
+    if (location === "muenchen-ost") {
+        return getDataFromIndicator(location)
+    } else {
+        return getDataDirectly(location)
+    }
 }
 
 if (config.runsInApp) {
