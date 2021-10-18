@@ -72,9 +72,9 @@ async function getDataFromIndicator(location) {
     await webview.loadURL(`https://www.boulderwelt-${location}.de/`)
     let getLevel = `(function(){
         const img = document.querySelector('.crowd-level-pointer img')
-        const style = img.getAttribute('style')
+        const style = img?.getAttribute('style')
         const regex = /margin-left\\s*:\\s*([\\d.]+)%/
-        const found = style.match(regex)
+        const found = style?.match(regex)
         if (!found) return -1
         const level = parseFloat(found[1])
         return Math.round(level)
