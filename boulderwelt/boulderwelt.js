@@ -6,6 +6,7 @@ function createWidget(location, data) {
         "dortmund": "Dortmund",
         "frankfurt": "Frankfurt",
         "regensburg": "Regensburg",
+        "karlsruhe": "Karlsruhe",
     }
     let widget = new ListWidget()
     widget.url = `https://www.boulderwelt-${location}.de/`
