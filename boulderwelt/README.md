@@ -12,3 +12,4 @@ Possible widget parameters:
     dortmund
     frankfurt
     regensburg
+    karlsruhe
