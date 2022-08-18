@@ -30,8 +30,8 @@ function createWidget(location, data) {
         let level = -1
         let queue = -1
         if (data.success) {
-            level = data.percent
-            queue = data.queue
+            level = data.level || -1
+            queue = data.queue || -1
         }
 
         let levelText = widget.addText((level >= 0 ? level : "--") + "%")
@@ -48,20 +48,22 @@ function createWidget(location, data) {
             levelText.textColor = Color.green()
         }
 
-        let queueTitle = widget.addText("Warteschlange")
-        queueTitle.font = Font.regularSystemFont(12)
-        queueTitle.textColor = Color.gray()
-        queueTitle.minimumScaleFactor = 0.5
+        if (queue >= 0) {
+            let queueTitle = widget.addText("Warteschlange")
+            queueTitle.font = Font.regularSystemFont(12)
+            queueTitle.textColor = Color.gray()
+            queueTitle.minimumScaleFactor = 0.5
 
-        let queueText = widget.addText((queue >= 0 ? queue : "--") + " Personen")
-        queueText.font = Font.regularSystemFont(18)
-        queueText.minimumScaleFactor = 1
-        if (queue > 20) {
-            queueText.textColor = Color.red()
-        } else if (queue > 10) {
-            queueText.textColor = Color.orange()
-        } else if (queue < 0) {
-            queueText.textColor = Color.gray()
+            let queueText = widget.addText((queue >= 0 ? queue : "--") + " Personen")
+            queueText.font = Font.regularSystemFont(18)
+            queueText.minimumScaleFactor = 1
+            if (queue > 20) {
+                queueText.textColor = Color.red()
+            } else if (queue > 10) {
+                queueText.textColor = Color.orange()
+            } else if (queue < 0) {
+                queueText.textColor = Color.gray()
+            }
         }
     }
 
