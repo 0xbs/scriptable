@@ -25,20 +25,13 @@ function createWidget(powerData) {
         const batteryPower = Math.round(powerData.P_Batt)
 
         let chargeTitle
-        let chargeColor
         if (batteryPower <= battPowerTreshold) {
-            // Charging
             chargeTitle = 'LÄDT ►'
-            chargeColor = Color.green()
         } else if (batteryPower >= battPowerTreshold) {
-            // Discharging
             chargeTitle = `◀ ENTLÄDT`
         } else {
-            // Idle
-            chargeTitle = 'LEERLAUF'
-            chargeColor = Color.gray()
+            chargeTitle = 'STANDBY'
         }
-
 
         const chargeText = widget.addText(chargeTitle)
         chargeText.font = Font.boldSystemFont(12)
