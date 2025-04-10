@@ -108,14 +108,6 @@ function drawBatteryImage(percent) {
     return c.getImage()
 }
 
-function formatPowerSign(p) {
-    return p >= 0 ? '▼' : '▲'
-}
-
-function formatPower(p) {
-    return Math.abs(Math.round(p)).toLocaleString()
-}
-
 async function getData(endpoint, apiToken) {
     const req = new Request(baseURL + endpoint)
     req.method = 'GET'
