@@ -45,7 +45,7 @@ function createWidget(powerData) {
         const loadPower = Math.round(powerData.P_Load).toLocaleString()
         const pvPower = Math.round(powerData.P_PV).toLocaleString()
         const gridPower = Math.round(powerData.P_Grid).toLocaleString()
-        const battPower = Math.round(powerData.P_Grid).toLocaleString()
+        const battPower = Math.round(powerData.P_Batt).toLocaleString()
 
         const table = widget.addStack()
         const col1 = table.addStack()
@@ -67,30 +67,34 @@ function createWidget(powerData) {
 
         const pvPowerTitle = leftTop.addText('PV')
         pvPowerTitle.font = Font.regularSystemFont(12)
-        const pvPowerText = leftTop.addText(`${pvPower}`)
+        const pvPowerText = leftTop.addText(formatPower(pvPower))
         pvPowerText.textColor = Color.orange()
         pvPowerText.font = Font.boldSystemFont(18)
 
         const gridPowerTitle = rightTop.addText('NETZ')
         gridPowerTitle.font = Font.regularSystemFont(12)
-        const gridPowerText = rightTop.addText(`${gridPower}`)
+        const gridPowerText = rightTop.addText(formatPower(gridPower))
         gridPowerText.textColor = Color.blue()
         gridPowerText.font = Font.boldSystemFont(18)
 
         const loadPowerTitle = leftBottom.addText('LAST')
         loadPowerTitle.font = Font.regularSystemFont(12)
-        const loadPowerText = leftBottom.addText(`${loadPower}`)
+        const loadPowerText = leftBottom.addText(formatPower(loadPower))
         loadPowerText.textColor = Color.red()
         loadPowerText.font = Font.boldSystemFont(18)
 
         const battPowerTitle = rightBottom.addText('BATTERIE')
         battPowerTitle.font = Font.regularSystemFont(12)
-        const battPowerText = rightBottom.addText(`${battPower}`)
+        const battPowerText = rightBottom.addText(formatPower(battPower))
         battPowerText.textColor = Color.green()
         battPowerText.font = Font.boldSystemFont(18)
     }
 
     return widget
+}
+
+function formatPower(p) {
+    return `${p >= 0 ? '▼' : '▲'} ${Math.abs(p)}`
 }
 
 async function getData(endpoint, apiToken) {
