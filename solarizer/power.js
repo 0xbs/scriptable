@@ -42,10 +42,10 @@ function createWidget(powerData) {
         errorTitle.font = Font.regularSystemFont(15)
         errorTitle.textColor = Color.gray()
     } else {
-        const loadPower = Math.round(powerData.P_Load).toLocaleString()
-        const pvPower = Math.round(powerData.P_PV).toLocaleString()
-        const gridPower = Math.round(powerData.P_Grid).toLocaleString()
-        const battPower = Math.round(powerData.P_Batt).toLocaleString()
+        const loadPower = powerData.P_Load
+        const pvPower = powerData.P_PV
+        const gridPower = powerData.P_Grid
+        const battPower = powerData.P_Batt
 
         const table = widget.addStack()
         const col1 = table.addStack()
@@ -65,25 +65,25 @@ function createWidget(powerData) {
         const rightBottom = col2.addStack()
         rightBottom.layoutVertically()
 
-        const pvPowerTitle = leftTop.addText('PV')
+        const pvPowerTitle = leftTop.addText(formatPowerSign(pvPower) + ' PV')
         pvPowerTitle.font = Font.regularSystemFont(12)
         const pvPowerText = leftTop.addText(formatPower(pvPower))
         pvPowerText.textColor = Color.orange()
         pvPowerText.font = Font.boldSystemFont(18)
 
-        const gridPowerTitle = rightTop.addText('NETZ')
+        const gridPowerTitle = rightTop.addText(formatPowerSign(gridPower) + ' NETZ')
         gridPowerTitle.font = Font.regularSystemFont(12)
         const gridPowerText = rightTop.addText(formatPower(gridPower))
         gridPowerText.textColor = Color.blue()
         gridPowerText.font = Font.boldSystemFont(18)
 
-        const loadPowerTitle = leftBottom.addText('LAST')
+        const loadPowerTitle = leftBottom.addText(formatPowerSign(loadPower) + ' LAST')
         loadPowerTitle.font = Font.regularSystemFont(12)
         const loadPowerText = leftBottom.addText(formatPower(loadPower))
         loadPowerText.textColor = Color.red()
         loadPowerText.font = Font.boldSystemFont(18)
 
-        const battPowerTitle = rightBottom.addText('BATTERIE')
+        const battPowerTitle = rightBottom.addText(formatPowerSign(battPower) + ' BATT')
         battPowerTitle.font = Font.regularSystemFont(12)
         const battPowerText = rightBottom.addText(formatPower(battPower))
         battPowerText.textColor = Color.green()
@@ -93,8 +93,12 @@ function createWidget(powerData) {
     return widget
 }
 
+function formatPowerSign(p) {
+    return p >= 0 ? '▼' : '▲'
+}
+
 function formatPower(p) {
-    return `${p >= 0 ? '▼' : '▲'} ${Math.abs(p)}`
+    return Math.abs(Math.round(p)).toLocaleString()
 }
 
 async function getData(endpoint, apiToken) {
@@ -113,7 +117,7 @@ async function getData(endpoint, apiToken) {
     return response
 }
 
-const apiToken = args.widgetParameter
+const apiToken = '95878393-3e57-47d0-85c6-409f7e975b62'
 const powerData = await getData('/api/pv/power', apiToken)
 //let earningsData = await getData('/api/pv/earnings', apiToken)
 //let balanceData = await getData('/api/pv/balance', apiToken)
