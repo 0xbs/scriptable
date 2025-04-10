@@ -117,7 +117,7 @@ async function getData(endpoint, apiToken) {
     return response
 }
 
-const apiToken = '95878393-3e57-47d0-85c6-409f7e975b62'
+const apiToken = args.widgetParameter
 const powerData = await getData('/api/pv/power', apiToken)
 //let earningsData = await getData('/api/pv/earnings', apiToken)
 //let balanceData = await getData('/api/pv/balance', apiToken)
