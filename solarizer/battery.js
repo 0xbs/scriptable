@@ -1,7 +1,3 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: orange; icon-glyph: sun;
-
 const baseURL = 'https://solarizer.0xbs.de'
 const widgetURL = 'https://www.solarweb.com'
 const battPowerTreshold = 10 // minimum Watts to be recognized as (dis)charging
