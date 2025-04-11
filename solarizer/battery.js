@@ -25,7 +25,7 @@ function createWidget(powerData) {
         const batteryPower = Math.round(powerData.P_Batt)
 
         let chargeTitle
-        if (batteryPower <= battPowerTreshold) {
+        if (batteryPower <= -1.0 * battPowerTreshold) {
             chargeTitle = 'LÄDT ►'
         } else if (batteryPower >= battPowerTreshold) {
             chargeTitle = `◀ ENTLÄDT`
