@@ -42,7 +42,7 @@ function createWidget(powerData) {
 
         widget.addSpacer(5)
 
-        const powerText = widget.addText(`Leistung: ${batteryPower} W`)
+        const powerText = widget.addText(`Leistung: ${Math.abs(batteryPower)} W`)
         powerText.font = Font.regularSystemFont(12)
     }
 
