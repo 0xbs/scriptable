@@ -36,11 +36,11 @@ function createWidget(powerData) {
         const chargeText = widget.addText(chargeTitle)
         chargeText.font = Font.boldSystemFont(12)
 
-        widget.addSpacer(5)
+        widget.addSpacer(3)
 
         widget.addImage(drawBatteryImage(batteryCharge))
 
-        widget.addSpacer(5)
+        widget.addSpacer(3)
 
         const powerText = widget.addText(`Leistung: ${Math.abs(batteryPower)} W`)
         powerText.font = Font.regularSystemFont(12)
