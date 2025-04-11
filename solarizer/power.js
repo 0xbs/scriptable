@@ -10,17 +10,11 @@ function createWidget(powerData) {
 
     const titleCol1 = titleRow.addStack()
     titleCol1.layoutVertically()
-    titleCol1.addSpacer(3)
 
     const title = titleCol1.addText('Leistung')
     title.font = Font.boldSystemFont(18)
 
-    const unitDateRow = titleCol1.addStack()
-    const unitText = unitDateRow.addText("in Watt um")
-    unitText.font = Font.regularSystemFont(10)
-    unitText.textColor = Color.gray()
-    unitDateRow.addSpacer(2)
-    const timestampText = unitDateRow.addDate(powerData.timestamp)
+    const timestampText = titleCol1.addDate(powerData.timestamp)
     timestampText.font = Font.regularSystemFont(10)
     timestampText.textColor = Color.gray()
     timestampText.applyTimeStyle()
