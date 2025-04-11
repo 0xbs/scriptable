@@ -35,9 +35,6 @@ function createWidget(powerData) {
 
         const chargeText = widget.addText(chargeTitle)
         chargeText.font = Font.boldSystemFont(12)
-        if (chargeColor) {
-            chargeText.textColor = chargeColor
-        }
 
         widget.addSpacer(5)
 
